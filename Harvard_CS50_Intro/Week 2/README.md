@@ -16,4 +16,34 @@
 8.  command-line argument of the main
 9.  Exit code 0; Use the command below to check the exit code. 
     >$ echo $? 
+10. We cannot assign an array to another array
+    ```C
+    #include <stdio.h>
+
+    void set_array(int array[4]);
+    void set_int(int x);
+
+    int main(void) {
+        int a = 10;
+        int b[4] = {0, 1, 2, 3};
+        set_int(a);
+        set_array(b);
+        /* Should be 10 22*/
+        printf("%d %d\n", a , b[0]);
+    }
+
+    void set_array(int array[4]) {
+        array[0] = 22;
+    }
+
+    void set_int(int x) {
+        x = 22;
+    }
+    ```
+11. Macro:
+    ```C
+    #define NAME REPLACEMENT
+    #define PI 3.14159265
+    #define COURSE "CS50"
+    ```
     
