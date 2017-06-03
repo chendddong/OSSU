@@ -8,3 +8,12 @@
     2.  correctness: AC
     3.  design: efficiency
     4.  style: Add some useful but concise comments
+
+5.  complete ASCII chart
+![Complete ASCII chart](https://github.com/chendddong/OSSU/blob/master/Harvard_CS50_Intro/Week%202/ASCII.png)
+6.  the 'man' [link](https://reference.cs50.net/)
+7.  the '\0' ends a string 
+8.  command-line argument of the main
+9.  Exit code 0; Use the command below to check the exit code. 
+    >$ echo $? 
+    
