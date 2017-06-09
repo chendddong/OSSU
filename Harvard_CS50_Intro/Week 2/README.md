@@ -1,5 +1,9 @@
 # Notes in Week 2
-### Debugging 
+
+* ###  [notes](http://docs.cs50.net/2016/fall/notes/2/week2.html)
+* ###  [slides](http://cdn.cs50.net/2016/fall/lectures/2/week2.pdf)
+
+### Debugging
 1.  Always focus on the first bug and try to solve it one by one
 2.  Use extra print to see the alteration of variables
 3.  Rubber duck...
@@ -12,10 +16,10 @@
 5.  complete ASCII chart
 ![Complete ASCII chart](https://github.com/chendddong/OSSU/blob/master/Harvard_CS50_Intro/Week%202/ASCII.png)
 6.  the 'man' [link](https://reference.cs50.net/)
-7.  the '\0' ends a string 
+7.  the '\0' ends a string
 8.  command-line argument of the main
-9.  Exit code 0; Use the command below to check the exit code. 
-    >$ echo $? 
+9.  Exit code 0; Use the command below to check the exit code.
+    >$ echo $?
 10. We cannot assign an array to another array
     ```C
     #include <stdio.h>
@@ -46,4 +50,4 @@
     #define PI 3.14159265
     #define COURSE "CS50"
     ```
-    
+
