@@ -1,0 +1,95 @@
+1.  What’s stdint.h?
+
+A: 
+stdint.h is a header file in the C standard library introduced in the C99 standard 
+library section 7.18 to allow programmers to write more portable code by providing a 
+set of typedefs that specify exact-width integer types, together with the defined 
+minimum and maximum allowable values for each type, using macros[1] . This header 
+is particularly useful for embedded programming which often involves considerable 
+manipulation of hardware specific I/O registers requiring integer data of fixed widths, 
+specific locations and exact alignments. stdint.h (for C or C++), and cstdint (for C++) 
+can be downloaded or quickly created if they are not provided.
+
+2.  What’s the point of using uint8_t, uint32_t, int32_t, and uint16_t in a program?
+
+A:
+The naming convention for exact-width integer types is intN_t for signed int and 
+uintN_t for unsigned int [1] . For example int8_t and uint64_t amongst others could 
+be declared together with defining their corresponding ranges INT8_MIN to INT8_MAX 
+and 0 (zero) to UINT64_MAX; again using a similar but upper case naming convention. 
+In addition stdint.h defines limits of integer types capable of holding object pointers 
+such as UINTPTR_MAX, the value of which depends on the processor and its address range[1].
+
+
+3.  How many bytes is a BYTE, a DWORD, a LONG, and a WORD, respectively?
+
+A:
+typedef uint8_t  BYTE;  8 / 8 = 1 
+typedef uint32_t DWORD; 32 / 8 = 4
+typedef int32_t  LONG; 32 / 8 = 4 
+typedef uint16_t WORD; 16 / 8 = 2
+
+4.  What (in ASCII, decimal, or hexadecimal) must the first two bytes of any BMP file be?
+Leading bytes used to identify file formats (with high probability) are generally called
+"magic numbers."
+
+A:
+0x42 0x4D / BM
+
+5.  What’s the difference between bfSize and biSize?
+
+A:
+bfSize: (BITMAPFILEHEADER)
+The size, in bytes, of the bitmap file.
+
+biSize: (BITMAPINFOHEADER)
+The number of bytes required by the structure.
+
+6.  What does it mean if biHeight is negative?
+
+A:
+The height of the bitmap, in pixels. If biHeight is positive, the bitmap is a bottom-up DIB 
+and its origin is the lower-left corner. If biHeight is negative, the bitmap is a top-down 
+DIB and its origin is the upper-left corner.
+
+If biHeight is negative, indicating a top-down DIB, biCompression must be either BI_RGB 
+or BI_BITFIELDS. Top-down DIBs cannot be compressed.
+
+7.  What field in BITMAPINFOHEADER specifies the BMP’s color depth (i.e., bits per pixel)?
+
+A:
+The number of bits-per-pixel. The biBitCount member of the BITMAPINFOHEADER structure 
+determines the number of bits that define each pixel and the maximum number of colors in
+the bitmap. This member must be one of the following values.
+0,1,4,8,16,24,32
+
+8.  Why might fopen return NULL in lines 24 and 32 of copy.c?
+
+A:
+Maybe there is no such file named that 
+
+9.  Why is the third argument to fread always 1 in our code?
+
+A:
+There are only 1 file header and 1 info header for a bmp file
+
+10. What value does line 65 of copy.c assign to padding if bi.biWidth is 3?
+
+A:
+After the calculation, the padding is 3
+
+11. What does fseek do?
+
+A:
+Use fseek when you want to change the offset of the file pointer fp. This is an extremely
+useful tool. Normally, when reading in from a file, the pointer continues in one direction,
+from the start of the file to the end. fseek, however, allows you to change the location 
+of the file pointer.
+
+12. What is SEEK_CUR?
+
+A:
+If you want to change the location of the pointer fp from its current location, set 
+from_where to SEEK_CUR. To instead set the file pointer fp to a location in relation to 
+the end of the file, set from_where to SEEK_END. Similarly, if you want to alter the 
+pointer in relation to the beginning of the file, set from_where to SEEK_SET.
