@@ -1,0 +1,63 @@
+1.  What is pneumonoultramicroscopicsilicovolcanoconiosis?
+
+A:
+a pneumoconiosis caused by inhalation of very fine silicate or quartz dust...
+
+2.  According to its man page, what does getrusage do?
+
+A:
+getrusage() returns resource usage measures for who, in here, just for the time spent for each function.
+
+3.  Per that same man page, how many members are in a variable of type struct rusage?
+
+A:
+struct rusage {
+               struct timeval ru_utime; /* user CPU time used */
+               struct timeval ru_stime; /* system CPU time used */
+               long   ru_maxrss;        /* maximum resident set size */
+               long   ru_ixrss;         /* integral shared memory size */
+               long   ru_idrss;         /* integral unshared data size */
+               long   ru_isrss;         /* integral unshared stack size */
+               long   ru_minflt;        /* page reclaims (soft page faults) */
+               long   ru_majflt;        /* page faults (hard page faults) */
+               long   ru_nswap;         /* swaps */
+               long   ru_inblock;       /* block input operations */
+               long   ru_oublock;       /* block output operations */
+               long   ru_msgsnd;        /* IPC messages sent */
+               long   ru_msgrcv;        /* IPC messages received */
+               long   ru_nsignals;      /* signals received */
+               long   ru_nvcsw;         /* voluntary context switches */
+               long   ru_nivcsw;        /* involuntary context switches */
+           };
+
+4.  Why do you think we pass before and after by reference (instead of by value) to calculate, even though we’re not changing their contents?
+
+A:
+We can't possibly change the real value of those
+
+5.  Explain as precisely as possible, in a paragraph or more, how main goes about reading words from a file. In other words, convince us that you indeed understand how that function’s for loop works.
+
+A:
+1.  Create an char array to store the value of the word we are about to read, mind the length
+2.  for loop each character until we hit the end of the file
+3.  there are 3 situations that we could encounter during the process
+    a.  that character is an alphabet or an apostrophes
+        we simply just assign this character to the word array and increment the index we are using.
+        * we have to check if the index, if it is larger than 45 while it's not a '\0' or a EOF and it's just number or alphabet, we have to consume the rest of the string.
+    b.  that character is a digit, and it's not a '\0' or a EOF and it's just number or alphabet, we have to consume the rest of the string.   
+    c.  we found the whole world which means '\0'
+        * we need to check if it is misspelled or not
+            - if it is print them out
+            - else just set the index to 0 for the new word
+6.  Why do you think we used fgetc to read each word’s characters one at a time rather than use fscanf with a format string like "%s" to read whole words at a time? Put another way, what problems might arise by relying on fscanf alone?
+
+A:
+we can't fully check the string and it may be extremely long and does't fit the memory.
+
+7.  Why do you think we declared the parameters for check and load as const (which means "constant")?
+
+A:
+Always use const for function parameters passed by reference where the function does not modify
+(or free) the data pointed to.
+When modifying a data declaration, the const keyword specifies that the object or variable is not modifiable.
+Since we do not want to modify the const
