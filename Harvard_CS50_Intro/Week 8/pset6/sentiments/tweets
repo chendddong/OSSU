@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import nltk
+# 1. accepts one and only one command-line argument, the screen name for a user on Twitter,
+# 2. queries Twitter’s API for a user’s most recent 50 tweets,
+# 3. analyzes the sentiment of each of those tweets, and
+# 4. outputs each tweet’s score and text, colored in green if positive, red if negative, 
+# and yellow otherwise.
+
+# Note that get_user_timeline returns None in cases of error, as might happen if a screen
+# name doesn’t exist or a screen name’s tweets are private.
+
+# Look at smile for inspiration!
+
+from analyzer import Analyzer
+from termcolor import colored
+from helpers import get_user_timeline
+def main():
+
+    # ensure proper usage
+    if len(sys.argv) != 2:
+        sys.exit("Usage: ./tweets @username")
+
+    # absolute paths to lists
+    positives = os.path.join(sys.path[0], "positive-words.txt")
+    negatives = os.path.join(sys.path[0], "negative-words.txt")
+    
+    # instantiate analyzer
+    analyzer = Analyzer(positives, negatives)
+
+    # analyze tweets
+    
+    # initialize scores
+    score = 0
+    index = 0
+    
+    # get tweets and analyze each one of them
+    tweets = get_user_timeline(sys.argv[1])
+    if tweets == None:
+        sys.exit("Something is wrong with the username you have provided")
+
+    tokenizer = nltk.tokenize.TweetTokenizer()
+    for tweet in tweets:
+        tokens = tokenizer.tokenize(tweet)
+        for token in tokens:
+            score += analyzer.analyze(token)
+            
+        if score > 0.0:
+            print(colored(str(index) +" "+ tweet + ", " + sys.argv[1], "green"))
+        elif score < 0.0:
+            print(colored(str(index) +" "+ tweet + ", " + sys.argv[1], "red"))
+        else:
+            print(colored(str(index) +" "+ tweet + ", " + sys.argv[1], "yellow"))
+        score = 0
+        index += 1
+
+if __name__ == "__main__":
+    main()
