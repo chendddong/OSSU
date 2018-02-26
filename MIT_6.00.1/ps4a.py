@@ -46,7 +46,8 @@ def getFrequencyDict(sequence):
     # freqs: dictionary (element_type -> int)
     freq = {}
     for x in sequence:
-        freq[x] = freq.get(x, 0) + 1
+        # dictionary.get(key, default) return the associated value for that key if there is a key, or will return the value set as the default value. in this case 0. This is just a preventive gesture for all the things.
+        freq[x] = freq.get(x,0) + 1
     return freq
 	
 
@@ -56,6 +57,7 @@ def getFrequencyDict(sequence):
 #
 # Problem #1: Scoring a word
 #
+
 def getWordScore(word, n):
     """
     Returns the score for a word. Assumes the word is a valid word.
@@ -73,6 +75,7 @@ def getWordScore(word, n):
     """
     # TO DO ... <-- Remove this comment when you code this function
 
+    # e.g. chen
     final_score = 0
     BONUS = 50
     
@@ -83,7 +86,6 @@ def getWordScore(word, n):
         return final_score * len(word) + BONUS
         
     return final_score * len(word)
-
 
 
 #
@@ -102,7 +104,6 @@ def displayHand(hand):
     hand: dictionary (string -> int)
     """
     for letter in hand.keys():
-        # get the number of that certain letter
         for j in range(hand[letter]):
              print(letter,end=" ")       # print all on the same line
     print()                             # print an empty line
@@ -123,13 +124,13 @@ def dealHand(n):
     returns: dictionary (string -> int)
     """
     hand={}
-    numVowels = n // 3 # divide and discard the remainder
+    numVowels = n // 3
     
     for i in range(numVowels):
         x = VOWELS[random.randrange(0,len(VOWELS))]
-        hand[x] = hand.get(x, 0) + 1 # learn to use the get(x, default)
+        hand[x] = hand.get(x, 0) + 1
         
-    for i in range(numVowels, n):    # rest of the characters
+    for i in range(numVowels, n):    
         x = CONSONANTS[random.randrange(0,len(CONSONANTS))]
         hand[x] = hand.get(x, 0) + 1
         
@@ -171,6 +172,7 @@ def updateHand(hand, word):
     return fakehand
 
 
+
 #
 # Problem #3: Test word validity
 #
@@ -182,11 +184,24 @@ def isValidWord(word, hand, wordList):
     Does not mutate hand or wordList.
    
     word: string
+    word = 'come'
+
     hand: dictionary (string -> int)
+    hand = {'a' : 3, 'c' : 1, 'o' : 1, 'm' : 1, 'e' : 1}
+
     wordList: list of lowercase strings
     """
-    # TO DO ... <-- Remove this comment when you code this function
 
+    # make a copy of the hand
+    fakehand = hand.copy()
+
+    for character in word:
+        if fakehand.get(character, 0) == 0:
+            return False
+        else:
+            fakehand[character] = fakehand.get(character, 0) - 1
+
+    return word in wordList
 
 #
 # Problem #4: Playing a hand
@@ -199,7 +214,12 @@ def calculateHandlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    # TO DO... <-- Remove this comment when you code this function
+    number = 0
+
+    for key in hand:
+        number += hand[key]
+
+    return number
 
 
 
@@ -208,15 +228,22 @@ def playHand(hand, wordList, n):
     Allows the user to play the given hand, as follows:
 
     * The hand is displayed.
+    
+
     * The user may input a word or a single period (the string ".") 
       to indicate they're done playing
+
     * Invalid words are rejected, and a message is displayed asking
       the user to choose another word until they enter a valid word or "."
+
     * When a valid word is entered, it uses up letters from the hand.
+    
     * After every valid word: the score for that word is displayed,
       the remaining letters in the hand are displayed, and the user
       is asked to input another word.
+
     * The sum of the word scores is displayed when the hand finishes.
+    
     * The hand finishes when there are no more unused letters or the user
       inputs a "."
 
@@ -225,36 +252,53 @@ def playHand(hand, wordList, n):
       n: integer (HAND_SIZE; i.e., hand size required for additional points)
       
     """
-    # BEGIN PSEUDOCODE <-- Remove this comment when you code this function; do your coding within the pseudocode (leaving those comments in-place!)
-    # Keep track of the total score
-    
-    # As long as there are still letters left in the hand:
-    
-        # Display the hand
-        
-        # Ask user for input
-        
-        # If the input is a single period:
-        
-            # End the game (break out of the loop)
 
+
+    # Keep track of the total score
+    score = 0
+
+    # As long as there are still letters left in the hand:
+    while calculateHandlen(hand) > 0:
+
+        # Display the hand
+        displayHand(hand)
+
+        # Ask user for input
+        inputword = input('Enter word, or a "." to indicate that you are finished: ')
+
+        # If the input is a single period:
+        if inputword == '.':
+
+            # End the game (break out of the loop)
+            break
             
         # Otherwise (the input is not a single period):
-        
+        else:
+
             # If the word is not valid:
-            
+            if not isValidWord(inputword, hand, wordList):
                 # Reject invalid word (print a message followed by a blank line)
+                print('Invalid word, please try again.')
+                print()
 
             # Otherwise (the word is valid):
+            else:
 
                 # Tell the user how many points the word earned, and the updated total score, in one line followed by a blank line
+                point = getWordScore(inputword, n)
+                score += point
+
+                print(inputword + ' earned ' + str(point) + ' points. Total: ' + str(score) + ' points')
                 
                 # Update the hand 
-                
+                updateHand(hand, inputword)
 
     # Game is over (user entered a '.' or ran out of letters), so tell user the total score
-
-
+    if inputword == '.':
+        print('Goodbye! Total score: ' + str(score) +   ' points.')
+    else:
+        print('Run out of letters. Total score: ' + str(score) + ' points.')
+        
 #
 # Problem #5: Playing a game
 # 
