@@ -291,14 +291,15 @@ def playHand(hand, wordList, n):
                 print(inputword + ' earned ' + str(point) + ' points. Total: ' + str(score) + ' points')
                 
                 # Update the hand 
-                updateHand(hand, inputword)
+                hand = updateHand(hand, inputword)
 
     # Game is over (user entered a '.' or ran out of letters), so tell user the total score
     if inputword == '.':
         print('Goodbye! Total score: ' + str(score) +   ' points.')
     else:
         print('Run out of letters. Total score: ' + str(score) + ' points.')
-        
+
+
 #
 # Problem #5: Playing a game
 # 
